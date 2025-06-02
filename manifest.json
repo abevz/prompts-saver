@@ -3,13 +3,30 @@
   "name": "Prompts Saver",
   "version": "1.0",
   "description": "An add-on for quickly creating, organizing, and searching for prompts right in your browser.",
-  "icons": { "48": "icons/prompts-saver-48.png", "96": "icons/prompts-saver-96.png" },
-  "permissions": [ "storage", "contextMenus", "theme" ],
-  "background": { "scripts": ["background/background.js"] },
+  "icons": {
+    "48": "icons/prompts-saver-48.png",
+    "96": "icons/prompts-saver-96.png"
+  },
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "theme"
+  ],
+  "background": {
+    "scripts": ["background/background.js"]
+  },
   "sidebar_action": {
     "default_icon": "icons/prompts-saver-48.png",
     "default_title": "Prompts Saver",
     "default_panel": "sidebar/sidebar.html"
   },
-  "browser_specific_settings": { "gecko": { "id": "prompts-saver@addon.dev" } }
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "prompts-saver@addon.dev"
+    }
+  }
 }
