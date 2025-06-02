@@ -1,4 +1,3 @@
-/* ... :root and body.dark-theme color variables (no changes needed here) ... */
 :root {
     --primary-bg: #ffffff;
     --secondary-bg: #f4f4f9;
@@ -28,7 +27,6 @@ body.dark-theme {
     --success-btn-bg: #28a745;
 }
 
-/* --- GENERAL STYLES --- */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background-color: var(--primary-bg);
@@ -74,7 +72,7 @@ select {
     display: none !important;
 }
 
-/* --- TOP CONTROL BLOCK --- */
+/* Top control block */
 .main-controls {
     display: flex;
     flex-direction: column;
@@ -97,7 +95,7 @@ select {
     flex-grow: 1;
 }
 
-/* --- NEW STYLES FOR ICON BUTTONS --- */
+/* Icon button styles */
 .icon-btn {
     padding: 6px;
     line-height: 0;
@@ -109,7 +107,6 @@ select {
 
 .icon-btn svg {
     fill: var(--text-color);
-    /* Используется, если SVG не имеет своего fill="url(...)" */
     width: 18px;
     height: 18px;
     vertical-align: middle;
@@ -118,8 +115,6 @@ select {
 .icon-btn:hover {
     background-color: var(--border-color);
 }
-
-/* --- END NEW ICON BUTTON STYLES --- */
 
 .folders-section {
     display: flex;
@@ -155,7 +150,7 @@ select {
     width: 38px;
 }
 
-/* --- COLLAPSIBLE FORM STYLES --- */
+/* Collapsible form styles */
 .add-form-container {
     margin-bottom: 16px;
     background-color: var(--secondary-bg);
@@ -225,7 +220,7 @@ select {
     background-color: #6c757d;
 }
 
-/* --- PROMPT LIST STYLES --- */
+/* Prompt list styles */
 #prompts-list-container {
     flex-grow: 1;
     overflow-y: auto;
@@ -271,37 +266,31 @@ select {
 .prompt-actions {
     display: flex;
     gap: 6px;
-    /* Немного уменьшим отступ */
     align-self: flex-end;
     margin-top: 8px;
 }
 
-/* Общие стили для кнопок-иконок в списке */
+/* General styles for icon buttons in the list */
 .prompt-actions .icon-btn {
     padding: 5px;
     width: 30px;
     height: 30px;
     line-height: 0;
-    /* НОВОЕ: Применяем тот же фон и рамку, как у кнопок Экспорт/Импорт */
     background-color: var(--secondary-bg);
     border: 1px solid var(--border-color);
 }
 
 .prompt-actions .icon-btn svg {
-    /* fill для SVG по-прежнему будет браться из атрибута fill="url(#sharedIconGradient)" в самом SVG */
     width: 16px;
     height: 16px;
     vertical-align: middle;
 }
 
-/* Сохраняем фоновые цвета для кнопок, чтобы они отличались по смыслу */
+/* Preserve background colors for buttons to distinguish their purpose */
 
-/* Эффект при наведении для всех кнопок-иконок в списке */
+/* Hover effect for all icon buttons in the list */
 .prompt-actions .icon-btn:hover {
     background-color: var(--border-color);
-    /* Такой же hover, как у верхних .icon-btn */
-    /* opacity: 1; */
-    /* Если вы хотите убрать предыдущую прозрачность, если она была */
 }
 
 .prompt-actions button {
@@ -313,9 +302,6 @@ select {
     font-size: 0.8em;
     color: var(--text-secondary-color);
     margin-top: 6px;
-    /* Отступ сверху от тегов или текста */
     word-break: break-all;
-    /* Перенос длинного пути */
     opacity: 0.8;
-    /* Немного приглушим */
 }

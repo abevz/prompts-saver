@@ -1,6 +1,4 @@
-// prompts-saver/sidebar/sidebar.js
 document.addEventListener('DOMContentLoaded', () => {
-    // --- DOM ELEMENT REFERENCES ---
     const toggleFormBtn = document.getElementById('toggle-form-btn');
     const addForm = document.getElementById('add-prompt-form');
     const titleInput = document.getElementById('prompt-title-input');
@@ -15,17 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const cancelBtn = document.getElementById('cancel-edit-btn');
     const formTitleH2 = document.querySelector('.add-form-container .add-form h2');
     const folderFilterSelect = document.getElementById('folder-filter-select');
-    // const addFolderForm = document.getElementById('add-folder-form'); // Removed
-    // const newFolderNameInput = document.getElementById('new-folder-name'); // Removed
     const promptFolderSelect = document.getElementById('prompt-folder-select');
-    // const devAddSubfolderBtn = document.getElementById('dev-add-subfolder'); // Removed
 
-    // --- STATE VARIABLES ---
     let allPrompts = [];
     let allFolders = [];
     let editingPromptId = null;
 
-    // --- THEME MANAGEMENT & TAG COLOR ---
+    // Theme management
     function applyThemeBasedOnColors(themeInfo) {
         if (themeInfo && themeInfo.colors && themeInfo.colors.toolbar_text) {
             const textColor = themeInfo.colors.toolbar_text;
@@ -34,8 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const rgb = rgbMatch.map(Number);
                 const brightness = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000;
                 applyThemeClass(brightness > 128);
-            } else { applyThemeClass(true); } // Fallback to dark if color format unexpected
-        } else { applyThemeClass(true); } // Default to dark if no color info
+            } else { applyThemeClass(true); }
+        } else { applyThemeClass(true); }
     }
     function applyThemeClass(isDark) {
         if (isDark) { document.body.classList.add('dark-theme'); }
@@ -56,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else { return `hsl(${hue}, 70%, 88%)`; }
     }
 
-    // --- COLLAPSIBLE FORM LOGIC ---
+    // Form management
     function openForm() {
         addForm.classList.remove('hidden');
         if(toggleFormBtn) {
@@ -73,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resetForm();
     }
     
-    // --- FOLDER LOGIC ---
+    // Folder management
     function populateFolderOptionsRecursive(selectElement, parentId, depth) {
         const indent = (depth > 0 ? '—'.repeat(depth) + ' ' : '');
         allFolders.filter(folder => folder.parentId === parentId)
@@ -84,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
     function renderFolders() {
-        // console.log('[Sidebar] renderFolders - allFolders:', JSON.parse(JSON.stringify(allFolders)));
         const currentFilterVal = folderFilterSelect.value;
         const currentPromptFolderVal = promptFolderSelect.value;
         folderFilterSelect.innerHTML = ''; promptFolderSelect.innerHTML = '';
@@ -115,7 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return ids.map(id => id === null ? "null" : String(id));
     }
 
-    // --- PROMPT RENDERING (РЕФАКТОРИНГ) ---
     function escapeHTML(str) { const p = document.createElement("p"); p.appendChild(document.createTextNode(str || "")); return p.innerHTML; }
     
     function renderPrompts(prompts) {
@@ -136,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const textEl = document.createElement('p');
             textEl.className = 'prompt-text';
-            textEl.textContent = escapeHTML(prompt.text); // Используем textContent для безопасности
+            textEl.textContent = escapeHTML(prompt.text);
             promptElement.appendChild(textEl);
 
             if (prompt.tags && prompt.tags.length > 0) {
@@ -204,10 +196,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if(cancelBtn) cancelBtn.classList.add('hidden');
     }
     
-    function parseCSV(csvText) { /* ... как в прошлой версии ... */ }
-    parseCSV = (csvText) => { const promptsFromCSV = []; const lines = csvText.trim().split(/\r\n|\n|\r/); if (lines.length < 2) return promptsFromCSV; const header = lines[0].split(',').map(h => h.trim().toLowerCase()); const idIdx = header.indexOf('id'); const createdAtIdx = header.indexOf('createdat'); const titleIdx = header.indexOf('title'); const textIdx = header.indexOf('text'); const tagsIdx = header.indexOf('tags'); const folderIdIdx = header.indexOf('folderid'); if (idIdx === -1 || textIdx === -1) { alert("CSV Format Error: Missing 'id' or 'text' columns."); return promptsFromCSV; } for (let i = 1; i < lines.length; i++) { const line = lines[i]; if (!line.trim()) continue; const values = []; let currentVal = ''; let inQuotes = false; for (let k = 0; k < line.length; k++) { let char = line[k]; if (char === '"' && inQuotes && k + 1 < line.length && line[k + 1] === '"') { currentVal += '"'; k++; } else if (char === '"') { inQuotes = !inQuotes; } else if (char === ',' && !inQuotes) { values.push(currentVal); currentVal = ''; } else { currentVal += char; } } values.push(currentVal); try { const id = Number(values[idIdx]); if (isNaN(id)) { console.warn("Skipping CSV row: invalid ID", values[idIdx]); continue; } const prompt = { id: id, createdAt: createdAtIdx !== -1 && values[createdAtIdx] ? values[createdAtIdx].replace(/^"|"$/g, '') : new Date().toISOString(), title: titleIdx !== -1 && values[titleIdx] ? values[titleIdx].replace(/^"|"$/g, '') : 'Imported Prompt', text: values[textIdx] ? values[textIdx].replace(/^"|"$/g, '') : '', tags: tagsIdx !== -1 && values[tagsIdx] ? values[tagsIdx].replace(/^"|"$/g, '').split(',').map(t => t.trim()).filter(Boolean) : [], folderId: folderIdIdx !== -1 && values[folderIdIdx] && values[folderIdIdx].trim() !== "" ? Number(values[folderIdIdx]) : null }; if (prompt.folderId !== null && !allFolders.some(f => f.id === prompt.folderId)) { prompt.folderId = null; } promptsFromCSV.push(prompt); } catch (e) { console.error("Error parsing CSV row:", line, e); } } return promptsFromCSV; };
+    const parseCSV = (csvText) => { const promptsFromCSV = []; const lines = csvText.trim().split(/\r\n|\n|\r/); if (lines.length < 2) return promptsFromCSV; const header = lines[0].split(',').map(h => h.trim().toLowerCase()); const idIdx = header.indexOf('id'); const createdAtIdx = header.indexOf('createdat'); const titleIdx = header.indexOf('title'); const textIdx = header.indexOf('text'); const tagsIdx = header.indexOf('tags'); const folderIdIdx = header.indexOf('folderid'); if (idIdx === -1 || textIdx === -1) { alert("CSV Format Error: Missing 'id' or 'text' columns."); return promptsFromCSV; } for (let i = 1; i < lines.length; i++) { const line = lines[i]; if (!line.trim()) continue; const values = []; let currentVal = ''; let inQuotes = false; for (let k = 0; k < line.length; k++) { let char = line[k]; if (char === '"' && inQuotes && k + 1 < line.length && line[k + 1] === '"') { currentVal += '"'; k++; } else if (char === '"') { inQuotes = !inQuotes; } else if (char === ',' && !inQuotes) { values.push(currentVal); currentVal = ''; } else { currentVal += char; } } values.push(currentVal); try { const id = Number(values[idIdx]); if (isNaN(id)) { console.warn("Skipping CSV row: invalid ID", values[idIdx]); continue; } const prompt = { id: id, createdAt: createdAtIdx !== -1 && values[createdAtIdx] ? values[createdAtIdx].replace(/^"|"$/g, '') : new Date().toISOString(), title: titleIdx !== -1 && values[titleIdx] ? values[titleIdx].replace(/^"|"$/g, '') : 'Imported Prompt', text: values[textIdx] ? values[textIdx].replace(/^"|"$/g, '') : '', tags: tagsIdx !== -1 && values[tagsIdx] ? values[tagsIdx].replace(/^"|"$/g, '').split(',').map(t => t.trim()).filter(Boolean) : [], folderId: folderIdIdx !== -1 && values[folderIdIdx] && values[folderIdIdx].trim() !== "" ? Number(values[folderIdIdx]) : null }; if (prompt.folderId !== null && !allFolders.some(f => f.id === prompt.folderId)) { prompt.folderId = null; } promptsFromCSV.push(prompt); } catch (e) { console.error("Error parsing CSV row:", line, e); } } return promptsFromCSV; };
 
-    // --- INITIALIZATION ---
     async function initialize() {
         console.log('[Sidebar] Initialize START. Loading prompts and folders.');
         try {
@@ -215,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
             allPrompts = data.prompts || [];
             allFolders = data.folders || [];
         } catch (e) {
-            console.error("[Sidebar] Error LOADING from storage during initialize:", e);
+            console.error("[Sidebar] Error loading from storage during initialize:", e);
             allPrompts = []; allFolders = [];
         }
         renderFolders();
@@ -223,7 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
         closeForm();
     }
 
-    // --- EVENT LISTENERS ---
     if(toggleFormBtn) toggleFormBtn.addEventListener('click', () => { if (addForm.classList.contains('hidden')) { openForm(); } else { closeForm(); } });
     
     if(addForm) addForm.addEventListener('submit', async (e) => { 
@@ -236,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     if(promptsContainer) promptsContainer.addEventListener('click', (e) => { 
-        const target = e.target.closest('button'); // Делегируем на кнопку
+        const target = e.target.closest('button');
         if (!target) return; 
 
         const promptItem = target.closest('.prompt-item'); 
@@ -266,7 +255,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // if(addFolderForm) addFolderForm.addEventListener('submit', handleAddFolder); // Removed
     if(folderFilterSelect) folderFilterSelect.addEventListener('change', renderFilteredPrompts);
     if(searchInput) searchInput.addEventListener('input', renderFilteredPrompts);
     
@@ -281,14 +269,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     if(cancelBtn) cancelBtn.addEventListener('click', () => { closeForm(); });
-    if(exportBtn) exportBtn.addEventListener('click', () => { /* ... как в прошлой версии ... */ });
+    if(exportBtn) exportBtn.onclick = () => { if (allPrompts.length === 0) { alert("No prompts to export."); return; } const header = "id,createdAt,title,text,tags,folderId\n"; const rows = allPrompts.map(p => { const id = p.id; const createdAt = `"${p.createdAt}"`; const title = `"${(p.title || '').replace(/"/g, '""')}"`; const text = `"${(p.text || '').replace(/"/g, '""')}"`; const tags = `"${(p.tags || []).join(',').replace(/"/g, '""')}"`; const folderId = p.folderId === null || p.folderId === undefined ? "" : p.folderId; return `${id},${createdAt},${title},${text},${tags},${folderId}`; }).join("\n"); const csvContent = header + rows; const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' }); const url = URL.createObjectURL(blob); const link = document.createElement("a"); link.setAttribute("href", url); link.setAttribute("download", `prompts_export_${new Date().toISOString().split('T')[0]}.csv`); document.body.appendChild(link); link.click(); document.body.removeChild(link); URL.revokeObjectURL(url); };
     if(exportBtn) exportBtn.onclick = () => { if (allPrompts.length === 0) { alert("No prompts to export."); return; } const header = "id,createdAt,title,text,tags,folderId\n"; const rows = allPrompts.map(p => { const id = p.id; const createdAt = `"${p.createdAt}"`; const title = `"${(p.title || '').replace(/"/g, '""')}"`; const text = `"${(p.text || '').replace(/"/g, '""')}"`; const tags = `"${(p.tags || []).join(',').replace(/"/g, '""')}"`; const folderId = p.folderId === null || p.folderId === undefined ? "" : p.folderId; return `${id},${createdAt},${title},${text},${tags},${folderId}`; }).join("\n"); const csvContent = header + rows; const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' }); const url = URL.createObjectURL(blob); const link = document.createElement("a"); link.setAttribute("href", url); link.setAttribute("download", `prompts_export_${new Date().toISOString().split('T')[0]}.csv`); document.body.appendChild(link); link.click(); document.body.removeChild(link); URL.revokeObjectURL(url); };
     if(importBtn) importBtn.addEventListener('click', () => { importFileInput.click(); });
-    if(importFileInput) importFileInput.addEventListener('change', async (event) => { /* ... как в прошлой версии ... */ });
-    if(importFileInput) importFileInput.onchange = async (event) => { const file = event.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = async (e) => { const csvText = e.target.result; const importedPrompts = parseCSV(csvText); if (importedPrompts.length === 0 && csvText.trim().split(/\r\n|\n|\r/).length > 1) { alert("Could not parse prompts. Check CSV format & UTF-8 encoding."); event.target.value = null; return; } if (importedPrompts.length === 0) { alert("No prompts found to import, or file is empty (except header)."); event.target.value = null; return; } let newPromptsAddedCount = 0; const currentPromptIds = new Set(allPrompts.map(p => p.id)); const promptsToActuallyAdd = []; for (const importedPrompt of importedPrompts) { if (!currentPromptIds.has(importedPrompt.id)) { promptsToActuallyAdd.push(importedPrompt); newPromptsAddedCount++; } } if (newPromptsAddedCount > 0) { allPrompts = [...promptsToActuallyAdd, ...allPrompts]; await saveAllPrompts(allPrompts); alert(`${newPromptsAddedCount} new prompts imported successfully!`); } else { alert("No new prompts to import. All prompts from file might already exist."); } }; reader.readAsText(file, 'UTF-8'); } event.target.value = null; };
+    if(importFileInput) importFileInput.onchange = async (event) => { const file = event.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = async (e) => { const csvText = e.target.result; const importedPrompts = parseCSV(csvText); if (importedPrompts.length === 0 && csvText.trim().split(/\r\n|\n|\r/).length > 1) { alert("Could not parse prompts. Check CSV format & UTF-8 encoding."); event.target.value = null; return; } if (importedPrompts.length === 0) { alert("No prompts found to import, or file is empty (except header)."); event.target.value = null; return; } let newPromptsAddedCount = 0; const currentPromptIds = new Set(allPrompts.map(p => p.id)); const promptsToActuallyAdd = []; for (const importedPrompt of importedPrompts) { if (!currentPromptIds.has(importedPrompt.id)) { promptsToActuallyAdd.push(importedPrompt); newPromptsAddedCount++; } } if (newPromptsAddedCount > 0) { allPrompts = [...promptsToActuallyAdd, ...allPrompts]; await saveAllPrompts(allPrompts); alert(`${newPromptsAddedCount} new prompts imported successfully!`); } else { alert("No new prompts to import. All prompts from file might already exist."); } }; reader.readAsText(file, 'UTF-8');        } event.target.value = null; };
 
-    // Developer button logic removed
-    // if (devAddSubfolderBtn) { devAddSubfolderBtn.addEventListener('click', ...); }
-    
     initialize();
 });
