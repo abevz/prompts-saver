@@ -210,11 +210,7 @@ For issues, feature requests, or questions:
 - [ ] Prompt templates and variables
 - [ ] Advanced search with operators
 - [ ] Keyboard shortcuts
-- [ ] Prompt sharing between devices
-- [ ] Integration with popular AI services
-- [ ] Prompt versioning and history
 - [ ] Bulk operations (move, delete, tag)
-- [ ] Custom themes
 
 ### Version History
 - **v1.0.0**: Initial release with core functionality
