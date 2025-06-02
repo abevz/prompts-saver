@@ -8,36 +8,42 @@
 </head>
 <body>
     <div class="container">
-        <h1>Folder Management</h1>
-        <div class="folder-manager">
-            <div class="folder-tree-container">
-                <h2>Your Folders</h2>
-                <ul id="folder-tree-list">
-                    </ul>
-            </div>
-            <div class="folder-actions">
-                <h2>Add New Folder</h2>
-                <div class="action-form">
-                    <label for="new-folder-name-options">Folder Name:</label>
-                    <input type="text" id="new-folder-name-options" placeholder="Folder name">
-                    <label for="parent-folder-select-options">Parent Folder:</label>
-                    <select id="parent-folder-select-options">
-                        <option value="null">-- Top Level Folder --</option>
-                        </select>
-                    <button id="add-folder-btn-options">Add Folder</button>
-                </div>
-                <div class="selected-folder-actions" style="display: none;"> 
-                    <h3>Actions for: <span id="current-selected-folder-name"></span></h3>
-                    <label for="rename-folder-input">New Name:</label>
-                    <input type="text" id="rename-folder-input" placeholder="Enter new name">
-                    <button id="rename-folder-btn-options">Rename Selected Folder</button>
-                    <button id="delete-folder-btn-options">Delete Selected Folder</button>
-                </div>
-            </div>
+        <div class="options-page-header">
+            <img src="../icons/prompts-saver-48.png" alt="Prompts Saver Icon" id="options-addon-icon">
+            <h1>Prompts Saver Options</h1>
         </div>
 
-        <section class="folder-io-section">
-            <h2>Export / Import Folder Structure (JSON)</h2>
+        <section class="settings-section"> <h2>Folder Management</h2>
+            <div class="folder-manager">
+                <div class="folder-tree-container">
+                    <ul id="folder-tree-list">
+                        </ul>
+                </div>
+                <div class="folder-actions">
+                    <h3>Add New Folder</h3> <div class="action-form">
+                        <label for="new-folder-name-options">Folder Name:</label>
+                        <input type="text" id="new-folder-name-options" placeholder="Folder name">
+                        <label for="parent-folder-select-options">Parent Folder:</label>
+                        <select id="parent-folder-select-options">
+                            <option value="null">-- Top Level Folder --</option>
+                            </select>
+                        <button id="add-folder-btn-options">Add Folder</button>
+                    </div>
+                    <div class="selected-folder-actions" style="display: none;"> 
+                        <h3>Actions for: <span id="current-selected-folder-name"></span></h3>
+                        <label for="rename-folder-input">New Name:</label>
+                        <input type="text" id="rename-folder-input" placeholder="Enter new name">
+                        <label for="edit-folder-parent-select">Move to (New Parent):</label>
+                        <select id="edit-folder-parent-select">
+                            </select>
+                        <button id="save-folder-changes-btn-options">Save Changes</button>
+                        <button id="delete-folder-btn-options">Delete Selected Folder</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="settings-section folder-io-section"> <h2>Export / Import Folder Structure (JSON)</h2>
             <button id="export-folders-btn">Export Folders</button>
             <button id="import-folders-btn">Import Folders</button>
             <input type="file" id="import-folders-file-input" class="hidden" accept=".json">
