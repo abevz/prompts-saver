@@ -1,13 +1,13 @@
 # Prompts Saver - Firefox Extension
 
-A Firefox extension for saving and organizing AI prompts. Create folders, add tags, search through prompts, and export/import your collection as CSV.
+A Firefox extension for saving and organizing AI prompts. Create folders, add tags, search through prompts, and backup/restore your collection as JSON.
 
 ## Features
 
 - Save prompts with titles and tags
 - Organize in folders (with nesting)
 - Search and filter prompts
-- Import/export as CSV
+- JSON backup/restore functionality
 - Dark/light theme support
 - Sidebar interface
 
@@ -53,9 +53,9 @@ Built with vanilla JS, uses Firefox storage API.
 3. **Moving Prompts**: When editing a prompt, select a different folder from the dropdown
 
 ### Import/Export
-- **Export**: Click the export button to download all prompts as CSV
-- **Import**: Click the import button to upload a CSV file with prompts
-- **Folder Export/Import**: Use the Options page for folder structure backup
+- **Export**: Use the Options page to download all data (prompts + folders) as JSON
+- **Import**: Use the Options page to upload a JSON file to restore your data
+- **Complete Backup**: JSON export includes both prompts and folder structure
 
 ## File Structure
 
@@ -63,115 +63,41 @@ Built with vanilla JS, uses Firefox storage API.
 prompts-saver/
 ├── manifest.json              # Extension manifest
 ├── background/
-│   └── background.js          # Background script for extension lifecycle
+│   └── background.js          # Background script
 ├── sidebar/
-│   ├── sidebar.html           # Main interface HTML
-│   ├── sidebar.css            # Styling for sidebar
-│   └── sidebar.js             # Main application logic
+│   ├── sidebar.html           # Main interface
+│   ├── sidebar.css            # Styling
+│   └── sidebar.js             # Application logic
 ├── options/
-│   ├── options.html           # Options page HTML
-│   ├── options.css            # Options page styling
-│   └── options.js             # Folder management logic
-└── icons/
-    ├── prompts-saver-48.png   # Extension icon (48x48)
-    ├── prompts-saver-96.png   # Extension icon (96x96)
-    ├── download_arrow.svg     # Export icon
-    └── upload_arrow.svg       # Import icon
+│   ├── options.html           # Options page
+│   ├── options.css            # Options styling
+│   └── options.js             # Folder management
+├── icons/                     # Extension icons
+├── docs/                      # Documentation
+│   ├── USER_GUIDE.md          # Complete user guide
+│   ├── API.md                 # Technical reference
+│   └── CHANGELOG.md           # Version history
+└── README.md                  # This file
 ```
 
 ## Technical Details
 
-### Storage
-- Uses Firefox's `browser.storage.local` API for data persistence
-- Data is stored locally on the user's device
-- No external servers or cloud storage required
+- **Storage**: Uses Firefox's `browser.storage.local` API
+- **Data Format**: JSON with prompts and folder structures
+- **Compatibility**: Firefox 109+ (Manifest V3)
+- **Permissions**: Storage, theme, and sidebar access
 
-### Data Format
-Prompts are stored with the following structure:
-```javascript
-{
-  id: number,           // Unique identifier
-  title: string,        // Prompt title
-  text: string,         // Prompt content
-  tags: string[],       // Array of tags
-  folderId: number|null,// Parent folder ID
-  createdAt: string     // ISO timestamp
-}
-```
-
-Folders use this structure:
-```javascript
-{
-  id: number,           // Unique identifier
-  name: string,         // Folder name
-  parentId: number|null // Parent folder ID (null for root)
-}
-```
-
-### Browser Compatibility
-- **Minimum Firefox Version**: 109 (for Manifest V3 support)
-- **Permissions Required**:
-  - `storage`: For saving prompts and folders
-  - `theme`: For automatic theme detection
-  - `sidebarAction`: For sidebar panel functionality
+For detailed technical information, see [API Documentation](docs/API.md).
 
 ## Development
 
-### Prerequisites
-- Firefox Developer Edition (recommended)
-- Basic knowledge of HTML, CSS, and JavaScript
-- Understanding of WebExtensions API
+### Quick Start
+1. Clone the repository
+2. Open `about:debugging` in Firefox
+3. Load temporary add-on using `manifest.json`
+4. Make changes and reload to test
 
-### Setup Development Environment
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd prompts-saver
-   ```
-
-2. Load in Firefox:
-   - Open `about:debugging`
-   - Click "Load Temporary Add-on"
-   - Select `manifest.json`
-
-3. Development workflow:
-   - Make changes to source files
-   - Click "Reload" in `about:debugging` to test changes
-   - Use Firefox Developer Tools for debugging
-
-### Code Structure
-
-#### Background Script (`background/background.js`)
-- Handles extension lifecycle events
-- Manages toolbar icon and sidebar state
-- Minimal implementation for sidebar-focused extension
-
-#### Sidebar Interface (`sidebar/`)
-- **HTML**: Clean, semantic structure with form and list elements
-- **CSS**: CSS custom properties for theming, flexbox layouts
-- **JavaScript**: Modular functions for CRUD operations, UI updates, and data management
-
-#### Options Page (`options/`)
-- **HTML**: Advanced folder management interface
-- **CSS**: Consistent styling with sidebar
-- **JavaScript**: Folder tree rendering, drag-and-drop operations
-
-### Adding New Features
-
-1. **New Prompt Fields**: 
-   - Update the data structure in storage
-   - Modify the form HTML and validation
-   - Update import/export functionality
-
-2. **Additional Storage Options**:
-   - Implement in `background.js`
-   - Add UI controls in options page
-   - Update manifest permissions if needed
-
-3. **Enhanced Search**:
-   - Extend search logic in `sidebar.js`
-   - Add filters for tags, dates, folders
-   - Consider adding search operators
+For detailed development guide, see [User Guide](docs/USER_GUIDE.md) and [API Documentation](docs/API.md).
 
 ## Contributing
 
@@ -188,6 +114,13 @@ Folders use this structure:
 - Follow existing patterns for UI interactions
 - Test edge cases (empty data, long text, special characters)
 
+## Documentation
+
+- **[User Guide](docs/USER_GUIDE.md)** - Comprehensive usage instructions
+- **[API Documentation](docs/API.md)** - Technical reference and data structures
+- **[Changelog](docs/CHANGELOG.md)** - Version history and changes
+- **[Development Reports](docs/)** - Development process documentation
+
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
@@ -198,6 +131,10 @@ For issues, feature requests, or questions:
 1. Check existing GitHub issues
 2. Create a new issue with detailed description
 3. Include Firefox version and steps to reproduce
+
+For detailed usage instructions, see the [User Guide](docs/USER_GUIDE.md).
+
+For technical information, see the [API Documentation](docs/API.md).
 
 ## Roadmap
 
@@ -211,5 +148,11 @@ For issues, feature requests, or questions:
 - **v1.0.0**: Initial release with core functionality
   - Basic prompt management
   - Folder organization
-  - CSV import/export
+  - JSON backup/restore
   - Theme support
+
+## Disclaimer
+
+This extension was developed with assistance from **Gemini 2.5 Pro** AI model for code generation, optimization, and documentation.
+
+Please note that English is not my native language. AI tools were utilized to assist with translation and refinement of this README file to ensure clarity and accuracy.

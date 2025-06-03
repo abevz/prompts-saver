@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tagsInput = document.getElementById('prompt-tags-input');
     const promptsContainer = document.getElementById('prompts-list-container');
     const searchInput = document.getElementById('search-input');
-    // CSV Export/Import buttons are removed from sidebar
+    // Import/Export functionality is available on the Options page (JSON format only)
     const saveBtn = document.getElementById('save-btn');
     const cancelBtn = document.getElementById('cancel-edit-btn');
     const formTitleText = document.getElementById('form-title-text'); // Assuming this ID is on the H2 inside the form
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(searchInput) searchInput.addEventListener('input', renderFilteredPrompts);
     browser.storage.onChanged.addListener((changes, area) => { if (area === 'local') { let reRenderPromptsFlag = false; let reRenderFoldersFlag = false; if (changes.prompts) { allPrompts = changes.prompts.newValue || []; updateUniqueTags(); renderTagFilterDropdown(); reRenderPromptsFlag = true; } if (changes.folders) { allFolders = changes.folders.newValue || []; reRenderFoldersFlag = true; } if (reRenderFoldersFlag) renderFolders(); if (reRenderPromptsFlag || reRenderFoldersFlag) renderFilteredPrompts(); } });
     if(cancelBtn) cancelBtn.addEventListener('click', () => { closeForm(); });
-    // CSV Export/Import logic has been removed.
+    // Import/Export functionality is available on the Options page (JSON format only)
     if (toggleTagFilterBtn) { toggleTagFilterBtn.addEventListener('click', () => { const isFormOpen = !addForm.classList.contains('hidden'); if(isFormOpen) { closeForm(); } tagFilterContainer.classList.toggle('hidden'); if (!tagFilterContainer.classList.contains('hidden') && tagSearchInput) { tagSearchInput.value = ''; renderTagFilterDropdown(); tagSearchInput.focus(); } }); }
     if (clearTagFilterBtn) { clearTagFilterBtn.addEventListener('click', () => { selectedFilterTags = []; if (tagSearchInput) tagSearchInput.value = ""; renderTagFilterDropdown(); renderFilteredPrompts(); }); }
     if (tagSearchInput) { tagSearchInput.addEventListener('input', renderTagFilterDropdown); }

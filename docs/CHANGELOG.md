@@ -29,9 +29,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Copy prompt text to clipboard with one click
 
 - **Data Management**
-  - Import prompts from CSV files with validation
-  - Export all prompts to CSV format with metadata
-  - Folder structure export/import via JSON format
+  - Complete data backup/restore via JSON export/import
+  - Export all prompts and folders to JSON format with metadata
+  - Import functionality to restore complete extension state
   - Local storage using Firefox's storage API
   - Automatic data persistence and sync
 
@@ -53,7 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Storage**: Browser storage API with error handling
 - **UI Framework**: Vanilla JavaScript with modern ES6+ features
 - **Styling**: CSS custom properties for theming
-- **Import/Export**: Robust CSV parsing with quote handling
+- **Import/Export**: Robust JSON processing with validation
 - **Error Handling**: Comprehensive validation and user feedback
 
 ### Browser Support
@@ -82,7 +82,7 @@ prompts-saver/
 - Local-only data storage (no external servers)
 - Input sanitization and validation
 - XSS protection in dynamic content
-- Safe CSV parsing with error handling
+- Safe JSON parsing with error handling
 
 ### Performance Optimizations
 - Efficient search algorithms

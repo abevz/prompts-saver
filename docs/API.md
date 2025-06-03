@@ -303,51 +303,84 @@ copyBtn.addEventListener('click', async () => {
 
 ## Import/Export
 
-### CSV Format
+### JSON Data Format
 
-#### Export Structure
-```csv
-id,createdAt,title,text,tags,folderId
-123,2024-01-01T10:00:00.000Z,"Sample Prompt","Prompt content","tag1,tag2",456
+#### Complete Export Structure
+```json
+{
+  "prompts": [
+    {
+      "id": 123,
+      "createdAt": "2024-01-01T10:00:00.000Z",
+      "title": "Sample Prompt",
+      "text": "Prompt content",
+      "tags": ["tag1", "tag2"],
+      "folderId": 456
+    }
+  ],
+  "folders": [
+    {
+      "id": 456,
+      "name": "Work Prompts",
+      "parentId": null
+    }
+  ]
+}
 ```
 
 #### Import Validation
-- Required columns: `id`, `text`
-- Optional columns: `createdAt`, `title`, `tags`, `folderId`
-- Handles quoted CSV values with commas
-- Validates folder references
-- Assigns orphaned prompts to root
+- Required root keys: `prompts`, `folders`
+- Prompts array must contain valid prompt objects
+- Folders array must contain valid folder objects
+- Invalid data entries are skipped with warnings
+- Missing folder references default prompts to root
 
-#### CSV Parsing Logic
+#### JSON Processing Logic
 ```javascript
-const parseCSV = (csvText) => {
-  // Split lines and parse header
-  const lines = csvText.trim().split(/\r\n|\n|\r/);
-  const header = lines[0].split(',').map(h => h.trim().toLowerCase());
-  
-  // Process each data row
-  lines.slice(1).forEach(line => {
-    // Handle quoted values and commas
-    // Validate required fields
-    // Create prompt objects
-  });
+const processImport = (jsonData) => {
+  try {
+    const data = JSON.parse(jsonData);
+    
+    // Validate structure
+    if (!data.prompts || !Array.isArray(data.prompts)) {
+      throw new Error('Invalid prompts data');
+    }
+    if (!data.folders || !Array.isArray(data.folders)) {
+      throw new Error('Invalid folders data');
+    }
+    
+    // Process and validate each entry
+    const validPrompts = data.prompts.filter(validatePrompt);
+    const validFolders = data.folders.filter(validateFolder);
+    
+    return { prompts: validPrompts, folders: validFolders };
+  } catch (error) {
+    console.error('Import failed:', error);
+    throw error;
+  }
 };
 ```
 
-### JSON Folder Export
-```json
-[
-  {
-    "id": 123,
-    "name": "Work Prompts",
-    "parentId": null
-  },
-  {
-    "id": 456,
-    "name": "Marketing",
-    "parentId": 123
-  }
-]
+### JSON Export/Import API
+```javascript
+// Export all data
+const exportAllData = async () => {
+  const storage = await browser.storage.local.get(['prompts', 'folders']);
+  const data = {
+    prompts: storage.prompts || [],
+    folders: storage.folders || []
+  };
+  return JSON.stringify(data, null, 2);
+};
+
+// Import all data (overwrites existing)
+const importAllData = async (jsonString) => {
+  const data = processImport(jsonString);
+  await browser.storage.local.set({
+    prompts: data.prompts,
+    folders: data.folders
+  });
+};
 ```
 
 ## Error Handling

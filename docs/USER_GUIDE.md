@@ -2,6 +2,12 @@
 
 A comprehensive guide to using the Prompts Saver Firefox extension for organizing and managing your AI prompts.
 
+## Development Information
+
+This extension and its documentation were developed with assistance from **Gemini 2.5 Pro** AI model for code generation, optimization, and documentation refinement.
+
+Please note that English is not my native language. AI tools were utilized to assist with translation and refinement of this documentation to ensure clarity and accuracy.
+
 ## Table of Contents
 - [Getting Started](#getting-started)
 - [Basic Operations](#basic-operations)
@@ -42,9 +48,7 @@ A comprehensive guide to using the Prompts Saver Firefox extension for organizin
 | Element | Description |
 |---------|-------------|
 | 🔍 Search Box | Find prompts by title or content |
-| ⬇ Export Button | Download prompts as CSV |
-| ⬆ Import Button | Upload prompts from CSV |
-| Folder Dropdown | Filter prompts by folder |
+| 📁 Folder Dropdown | Filter prompts by folder |
 | ▼ Add New Prompt | Toggle form to create prompts |
 
 ## Basic Operations
@@ -193,67 +197,85 @@ Business: email, presentation, meeting, strategy, analysis
 ### Bulk Operations
 
 #### Moving Multiple Prompts
-1. Export prompts to CSV
-2. Edit the `folderId` column in a spreadsheet
-3. Import the updated CSV file
+1. Export data to JSON via Options page
+2. Edit the JSON file to modify `folderId` values
+3. Import the updated JSON file
 
 #### Tag Management
-1. Export to CSV for bulk tag editing
-2. Use find/replace in spreadsheet software
+1. Export to JSON for bulk tag editing
+2. Use text editor to find/replace tags
 3. Import updated file
 
 ## Import/Export
 
-### Exporting Your Prompts
+### Exporting Your Data
 
-#### CSV Export Process
-1. Click the ⬇ export button in sidebar
-2. Choose save location for `prompts_export.csv`
-3. File contains all prompts with metadata
+#### JSON Export Process
+1. Go to Options page (right-click extension → Options)
+2. Click "Export All Data" button
+3. Choose save location for JSON file
+4. File contains all prompts and folder structure
 
-#### CSV File Structure
-```csv
-id,createdAt,title,text,tags,folderId
-123,2024-01-01T10:00:00.000Z,"Email Template","Write a professional email...","email,business,template",456
-124,2024-01-01T11:00:00.000Z,"Code Review","Review this Python code...","python,code,review",789
+#### JSON File Structure
+The exported JSON contains both prompts and folders:
+```json
+{
+  "prompts": [
+    {
+      "id": 123,
+      "createdAt": "2024-01-01T10:00:00.000Z",
+      "title": "Email Template",
+      "text": "Write a professional email...",
+      "tags": ["email", "business", "template"],
+      "folderId": 456
+    }
+  ],
+  "folders": [
+    {
+      "id": 456,
+      "name": "Work Templates",
+      "parentId": null
+    }
+  ]
+}
 ```
 
 #### Export Use Cases
 - **Backup**: Regular exports for data safety
 - **Sharing**: Send prompts to colleagues or friends
-- **Migration**: Move to different systems
-- **Analysis**: Open in spreadsheet for data analysis
+- **Migration**: Move to different systems or browsers
+- **Analysis**: Edit JSON for bulk operations
 
-### Importing Prompts
+### Importing Data
 
-#### CSV Import Process
-1. Prepare CSV file with proper format
-2. Click ⬆ import button in sidebar
-3. Select your CSV file
-4. Confirm import (will add to existing prompts)
+#### JSON Import Process
+1. On Options page, click "Import All Data"
+2. Select your JSON file
+3. **Warning**: This overwrites all existing data
+4. Confirm import to proceed
 
 #### Import File Requirements
-- **Required Columns**: `id`, `text`
-- **Optional Columns**: `title`, `tags`, `createdAt`, `folderId`
-- **Format**: Standard CSV with comma separators
+- **Format**: Valid JSON structure
+- **Required Structure**: Must contain `prompts` and `folders` arrays
 - **Encoding**: UTF-8 for special characters
+- **Data Validation**: Invalid prompts or folders are skipped
 
 #### Handling Import Issues
-- **Missing Folders**: Prompts with invalid `folderId` go to root
-- **Duplicate IDs**: Newer prompts overwrite existing ones
-- **Malformed Data**: Invalid rows are skipped with warnings
+- **Missing References**: Prompts with invalid `folderId` go to root
+- **Duplicate IDs**: Existing data is completely replaced
+- **Malformed Data**: Invalid entries are skipped with console warnings
 
-### Folder Structure Backup
+### Complete Data Backup
 
-#### Exporting Folders
+#### Exporting Complete Backup
 1. Go to Options page (right-click extension → Options)
-2. Click "Export Folders" button
-3. Save JSON file with folder hierarchy
+2. Click "Export All Data" button
+3. Save JSON file with complete data structure
 
-#### Importing Folders
-1. On Options page, click "Import Folders"
+#### Importing Complete Backup
+1. On Options page, click "Import All Data"
 2. Select JSON file
-3. **Warning**: This overwrites existing folder structure
+3. **Warning**: This overwrites existing data completely
 4. Confirm to proceed
 
 ## Tips and Best Practices
@@ -298,8 +320,7 @@ id,createdAt,title,text,tags,folderId
 ### Backup and Sync Strategy
 
 #### Regular Backups
-- **Weekly CSV Export**: Full prompt backup
-- **Monthly Folder Export**: Structure backup
+- **Weekly JSON Export**: Complete data backup
 - **Cloud Storage**: Store exports in Google Drive, Dropbox, etc.
 
 #### Multi-Device Access
@@ -329,13 +350,13 @@ id,createdAt,title,text,tags,folderId
 4. Restart browser if issue persists
 
 #### Import Fails
-**Symptoms**: CSV import shows error message
+**Symptoms**: JSON import shows error message
 **Solutions**:
-1. Verify CSV format matches requirements
-2. Check for required columns (`id`, `text`)
+1. Verify JSON format is valid
+2. Check for required structure (`prompts`, `folders` arrays)
 3. Ensure file encoding is UTF-8
 4. Try with smaller file first
-5. Check for special characters or formatting issues
+5. Check for malformed JSON syntax
 
 #### Missing Folders
 **Symptoms**: Prompts show "undefined" or no folder path
@@ -351,7 +372,7 @@ id,createdAt,title,text,tags,folderId
 1. **Check Folder Filter**: Ensure "All Folders" is selected
 2. **Search for Keywords**: Try searching for prompt content
 3. **Browser Storage**: Use browser dev tools to check `storage.local`
-4. **Recent Backup**: Restore from recent CSV export
+4. **Recent Backup**: Restore from recent JSON export
 
 #### Corrupted Data
 1. **Export Current Data**: Save what's recoverable
