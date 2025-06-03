@@ -153,10 +153,6 @@ For technical information, see the [API Documentation](docs/API.md).
 
 ## Disclaimer
 
-<<<<<<< HEAD
 This extension was developed with assistance from **Gemini 2.5 Pro** AI model for code generation, optimization, and documentation.
 
 Please note that English is not my native language. AI tools were utilized to assist with translation and refinement of this README file to ensure clarity and accuracy.
-=======
-This extension was developed with assistance from **Gemini 2.5 Pro** AI model for code generation, optimization, and documentation.
->>>>>>> f1543c7 (Refactor documentation and remove user guide; implement JSON import/export functionality in options page; enhance API documentation; update changelog for version 1.0.0 release; improve sidebar functionality and remove CSV export/import buttons.)
