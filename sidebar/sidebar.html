@@ -29,33 +29,38 @@
         </defs>
     </svg>
 
-    <header class="main-controls">
+<header class="main-controls">
         <h1>Prompts Saver</h1>
         <div class="actions-group">
             <input type="search" id="search-input" placeholder="Search...">
-            <button id="export-csv-btn" class="icon-btn" title="Export to CSV">
+            <button id="toggle-tag-filter-btn" class="icon-btn" title="Filter by Tags">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18px" height="18px">
-                    <path d="M0 0h24v24H0z" fill="none" />
-                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" fill="url(#sharedIconGradient)"
-                        filter="url(#sharedIconDropShadow)" />
+                    <path d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" fill="url(#sharedIconGradient)" filter="url(#sharedIconDropShadow)"/>
                 </svg>
             </button>
-            <button id="import-csv-btn" class="icon-btn" title="Import from CSV">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18px" height="18px">
-                    <path d="M0 0h24v24H0z" fill="none" />
-                    <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" fill="url(#sharedIconGradient)"
-                        filter="url(#sharedIconDropShadow)" />
-                </svg>
-            </button>
-            <input type="file" id="import-file-input" class="hidden" accept=".csv">
         </div>
-        <div class="folders-section">
+
+        <div id="tag-filter-container" class="tag-filter-container hidden">
+            <h4>Filter by Tags (shows prompts with ALL selected tags)</h4>
+            <input type="text" id="tag-search-input" placeholder="Search tags..." class="tag-search-input">
+            <div id="tag-filter-list" class="tag-filter-list">
+                </div>
+            <button id="clear-tag-filter-btn">Clear Tag Filters</button>
+        </div>
+        <div class="folder-filter-container">
             <div class="folder-filter">
-                <label for="folder-filter-select">Folder:</label>
+                 <span class="folder-icon" title="Filter by folder">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18px" height="18px">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+                    </svg>
+                </span>
                 <select id="folder-filter-select"></select>
             </div>
         </div>
     </header>
+    
 
     <section class="add-form-container">
         <button type="button" id="toggle-form-btn" class="form-toggle-btn">Add New Prompt</button>

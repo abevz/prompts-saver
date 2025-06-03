@@ -163,8 +163,8 @@ select {
     text-align: left;
     background: none;
     border: none;
-    padding: 12px;
-    font-size: 1.1em;
+    padding: 8px;
+    font-size: 1em;
     color: var(--text-secondary-color);
     font-weight: bold;
 }
@@ -226,16 +226,7 @@ select {
     overflow-y: auto;
 }
 
-.prompt-item {
-    display: flex;
-    flex-direction: column;
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    background: var(--secondary-bg);
-    margin-bottom: 10px;
-    gap: 8px;
-}
+
 
 .prompt-title {
     font-weight: bold;
@@ -244,9 +235,15 @@ select {
 }
 
 .prompt-text {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    color: var(--text-secondary-color);
+  white-space: pre-wrap; 
+  word-wrap: break-word;
+  color: var(--text-secondary-color);  /* NEW LINES BELOW: */
+  max-height: 120px;  /* Maximum height of the block. You can adjust the value (e.g., 80px, 100px, 150px) */
+  overflow-y: auto;   /* Adds vertical scroll if text doesn't fit */
+  
+  /* Optional: styles for thinner scrollbar in Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) var(--secondary-bg); /* Thumb and track color */
 }
 
 .prompt-tags {
@@ -257,10 +254,10 @@ select {
 }
 
 .tag-item {
-    color: var(--tag-text);
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.8em;
+  color: var(--tag-text);
+  padding: 2px 8px;      /* These values can be overridden by inline styles in JS */
+  border-radius: 12px;   /* For tags in filter lists, if you set different values there */
+  font-size: 0.8em;      /* Base size, for filter it will be 0.9em from inline style */
 }
 
 .prompt-actions {
@@ -298,10 +295,147 @@ select {
     font-size: 13px;
 }
 
-.prompt-folder-path {
-    font-size: 0.8em;
+
+/* Styles for folder icon in filter */
+.folder-filter .folder-icon {
+  display: inline-flex; /* For SVG alignment */
+  align-items: center;
+  padding-right: 6px; /* Small spacing from select */
+}
+.folder-filter .folder-icon svg {
+  fill: var(--text-secondary-color); /* Icon color */
+}
+
+/* Reduce height of select for folder filter */
+.folder-filter select#folder-filter-select {
+  padding: 6px 8px; /* Reduce padding */
+  font-size: 0.9em;   /* Reduce font size */
+}
+
+/* Tag filter container styles */
+
+.tag-filter-container {
+    background-color: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 12px;
+}
+
+.tag-filter-container h4 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 0.9em;
     color: var(--text-secondary-color);
-    margin-top: 6px;
-    word-break: break-all;
+}
+
+.tag-filter-list {
+    max-height: 150px; /* Limit height, add scroll if many tags */
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.tag-filter-list label {
+    display: flex; /* For aligning checkbox and tag in a row */
+    align-items: center; /* Vertical alignment */
+    margin-bottom: 6px; /* Slightly increase spacing */
+    font-weight: normal; 
+    cursor: pointer;
+}
+
+.tag-filter-list input[type="checkbox"] {
+    width: auto; 
+    margin-right: 6px;
+    vertical-align: middle; /* Although flex-align should already handle this */
+}
+
+#clear-tag-filter-btn {
+    font-size: 0.85em;
+    padding: 6px 10px;
+    background-color: var(--options-danger-button-bg, #dc3545); /* Use variable or direct color */
+    color: var(--options-button-text, white);
+}
+
+/* Tag search input styles */
+
+/* ... (existing styles) ... */
+
+.tag-search-input { /* Style for new tag search field */
+    width: 100%;
+    padding: 6px 8px;
+    margin-bottom: 10px; /* Spacing before tag list */
+    box-sizing: border-box;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    background-color: var(--primary-bg); /* Or var(--secondary-bg) depending on preference */
+    color: var(--text-color);
+    font-size: 0.9em;
+}
+
+/* Prompt item styles */
+
+/* ... (existing styles for .prompt-item, .prompt-title, .prompt-text, .prompt-tags) ... */
+.prompt-item {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  border: 1px solid var(--border-color);  /* This line handles the border */
+  border-radius: 5px;                    /* This line handles rounded corners */
+  background: var(--secondary-bg);       /* This line handles card background */
+  margin-bottom: 10px;                   /* Bottom spacing between cards */
+  gap: 8px;                              /* Internal spacing between card elements */
+}
+/* Style for prompt card footer */
+.prompt-item-footer {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important; 
+    align-items: center !important;
+    width: 100% !important;
+    margin-top: 8px !important; 
+}
+
+/* Style for folder path in footer */
+.prompt-item-footer > .prompt-folder-path {
+    display: block !important; 
+    flex-grow: 1 !important;         
+    width: auto !important;          
+    margin-right: 10px !important;   
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    text-align: left !important;
+    /* Text styles */
+    font-size: 0.8em; /* Can leave without !important if no conflicts */
+    color: var(--text-secondary-color);
     opacity: 0.8;
 }
+
+/* Style for action buttons block in footer */
+.prompt-item-footer > .prompt-actions { 
+    display: flex !important;        
+    flex-shrink: 0 !important;       
+    width: auto !important;          
+    gap: 6px !important;
+}
+
+/* Styles for the icon buttons themselves remain the same */
+.prompt-actions .icon-btn {
+  padding: 5px; 
+  width: 30px;  
+  height: 30px;
+  line-height: 0; 
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--border-color);
+}
+.prompt-actions .icon-btn svg {
+  width: 16px; 
+  height: 16px;
+  vertical-align: middle;
+}
+.prompt-actions .icon-btn:hover {
+  background-color: var(--border-color);
+}
+
+
+

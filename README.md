@@ -1,22 +1,15 @@
 # Prompts Saver - Firefox Extension
 
-A powerful Firefox extension for organizing and managing AI prompts with hierarchical folder structure, tagging, and import/export capabilities.
+A Firefox extension for saving and organizing AI prompts. Create folders, add tags, search through prompts, and export/import your collection as CSV.
 
 ## Features
 
-### Core Functionality
-- **Save Prompts**: Store and organize your AI prompts with titles and descriptions
-- **Hierarchical Folders**: Create nested folder structures to categorize prompts
-- **Tagging System**: Add multiple tags to prompts for enhanced organization
-- **Search & Filter**: Quickly find prompts using search and folder filtering
-- **Import/Export**: Backup and share prompts via CSV format
-- **Theme Support**: Automatic dark/light theme detection
-
-### User Interface
-- **Sidebar Panel**: Main interface for browsing and managing prompts
-- **Options Page**: Advanced folder management and bulk operations
-- **Collapsible Forms**: Clean, space-efficient interface design
-- **Responsive Design**: Works across different screen sizes
+- Save prompts with titles and tags
+- Organize in folders (with nesting)
+- Search and filter prompts
+- Import/export as CSV
+- Dark/light theme support
+- Sidebar interface
 
 ## Installation
 
@@ -30,6 +23,8 @@ A powerful Firefox extension for organizing and managing AI prompts with hierarc
 4. Click "Load Temporary Add-on"
 5. Select the `manifest.json` file from the extension folder
 6. The extension will be loaded and available in your toolbar
+
+Built with vanilla JS, uses Firefox storage API.
 
 ## Usage
 
